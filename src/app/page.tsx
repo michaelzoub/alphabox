@@ -30,7 +30,7 @@ export default function Home() {
     if (contractAddressesArray) {
       setCa(JSON.parse(contractAddressesArray))
     } else {
-      setCa(["0xub03btyub0gf8ybg0sgybs0fg8"])
+      setCa(["No addresses yet!"])
     }
   }, [])
 
@@ -44,7 +44,7 @@ export default function Home() {
     const randoTemp = Math.floor(Math.random() * 20)
     try {
       console.log(contractAddress)
-      const response = await fetch("http://localhost:3001", {
+      const response = await fetch("https://alphaboxbackend-production.up.railway.app/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
