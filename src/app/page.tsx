@@ -1,19 +1,24 @@
 "use client"
 import Image from "next/image";
 import { useEffect, useState } from "react"
+import { FormEvent } from 'react';
 
 const apiEndpoint = "http://localhost:3000"
+
+interface docObject {
+  _id: string,
+  address: string
+}
 
 export default function Home() {
 
 
-  const [ca, setCa] = useState<any[]>([])
+  const [ca, setCa] = useState<docObject[]>([])
   const[loading, setLoading] = useState(true)
   const [input, setInput] = useState<string>("")
   const [session, setSession] = useState<string[]>([])
 
   useEffect(() => {
-    setCa(["empty"])
     async function get() {
       const response = await fetch("/api/fetch", {
         method: "GET",
@@ -29,7 +34,7 @@ export default function Home() {
     get()
   }, [])
 
-  async function sendToApi(e:any, contractAddress: string) {
+  async function sendToApi(e:FormEvent<HTMLFormElement>, contractAddress: string) {
     e.preventDefault()
     const randoTemp = Math.floor(Math.random() * 20)
     try {
@@ -43,7 +48,7 @@ export default function Home() {
       })
       const body = await response.json()
       console.log("Success", body)
-      setCa((prev) => [...prev, {address: contractAddress, id: randoTemp}])
+      setCa((prev: docObject[]) => [...prev, {_id: randoTemp.toString(), address: contractAddress}])
       setInput("")
       //setCa((prev) => [...prev, body])
     } catch (error) {
@@ -68,7 +73,7 @@ export default function Home() {
         <div className="flex flex-col gap-2 rounded-md border-[1px] border-zinc-500 w-full h-full p-2" key="test">
         <div className={`${loading ? "mx-auto my-auto" : "hidden"}`}>Loading...</div>
         {
-          ca?.map((e:any) => 
+          ca?.map((e:docObject) => 
             <div className="w-full p-2 rounded-md border-[0px] border-zinc-500 bg-zinc-200 text-center transition ease-in-out delay-150 hover:bg-zinc-300 break-all" key={e._id}>{e.address}</div>
           )
         }
