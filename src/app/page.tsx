@@ -28,11 +28,6 @@ export default function Home() {
     get()
   }, [])
 
-  useEffect(() => {
-    console.log(session)
-    localStorage.setItem("ca", JSON.stringify(session))
-  }, [session])
-
   async function sendToApi(e:any, contractAddress: string) {
     e.preventDefault()
     const randoTemp = Math.floor(Math.random() * 20)
@@ -72,7 +67,7 @@ export default function Home() {
         <div className="flex flex-col gap-2 rounded-md border-[1px] border-zinc-500 w-full h-full p-2" key="test">
         <div className={`${loading ? "mx-auto my-auto" : "hidden"}`}>Loading...</div>
         {
-          ca?.map((e) => 
+          ca?.map((e:any) => 
             <div className="w-full p-2 rounded-md border-[0px] border-zinc-500 bg-zinc-200 text-center transition ease-in-out delay-150 hover:bg-zinc-300 break-all" key={e._id}>{e.address}</div>
           )
         }
