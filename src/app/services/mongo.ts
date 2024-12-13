@@ -1,22 +1,24 @@
 'use server'
-import { MongoClient } from 'mongodb';
+import { MongoClient, Db } from 'mongodb';
 
-const MONGODB_URI:any = process.env.MONGO_URI
-const MONGODB_DB = "wallet"
+const MONGODB_URI: string | undefined = process.env.MONGO_URI;
+const MONGODB_DB = 'wallet';
 
-let cachedClient:any = null;
-let cachedDb:any = null;
-let client:any;
-let db:any;
+let cachedClient: MongoClient | null = null;
+let cachedDb: Db | null = null;
 
 export async function connectToDatabase() {
   if (cachedClient && cachedDb) {
     return { client: cachedClient, db: cachedDb };
   }
 
+  if (!MONGODB_URI) {
+    throw new Error('MONGO_URI is not defined in environment variables');
+  }
+
   try {
-    client = await MongoClient.connect(MONGODB_URI);
-    db = client.db(MONGODB_DB);
+    const client = await MongoClient.connect(MONGODB_URI);
+    const db = client.db(MONGODB_DB);
 
     cachedClient = client;
     cachedDb = db;

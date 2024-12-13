@@ -13,6 +13,7 @@ export default function Home() {
   const [session, setSession] = useState<string[]>([])
 
   useEffect(() => {
+    setCa(["empty"])
     async function get() {
       const response = await fetch("/api/fetch", {
         method: "GET",
