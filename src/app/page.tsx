@@ -26,12 +26,6 @@ export default function Home() {
       setCa(body)
     }
     get()
-    const contractAddressesArray: any = localStorage.getItem("ca")
-    if (contractAddressesArray) {
-      setCa(JSON.parse(contractAddressesArray))
-    } else {
-      setCa(["No addresses yet!"])
-    }
   }, [])
 
   useEffect(() => {
