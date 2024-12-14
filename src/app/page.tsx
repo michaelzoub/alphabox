@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react"
 import { FormEvent } from 'react';
+import Link from "next/link";
 
 const apiEndpoint = "http://localhost:3000"
 
@@ -15,21 +16,39 @@ export default function Home() {
 
   const [ca, setCa] = useState<docObject[]>([])
   const[loading, setLoading] = useState(true)
+  const [loadingText, setLoadingText] = useState<string>("Loading")
   const [input, setInput] = useState<string>("")
   const [session, setSession] = useState<string[]>([])
 
   useEffect(() => {
     async function get() {
-      const response = await fetch("/api/fetch", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
+      const interval = setInterval(() => {
+        let count = 0
+        if (count > 3) {
+          setLoadingText("Loading")
+          count = 0
+        } else {
+          setLoadingText((prev) => prev + 1)
+          count++
         }
-      })
-      const body = await response.json()
-      console.log(body)
-      setLoading(false)
-      setCa(body)
+      }, 500)
+      try {
+        const response = await fetch("/api/fetch", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+        const body = await response.json()
+        console.log(body)
+        
+        setLoading(false)
+        setCa(body)
+      } catch (error) {
+        console.error(error)
+      } finally {
+        clearInterval(interval)
+      }
     }
     get()
   }, [])
@@ -61,20 +80,20 @@ export default function Home() {
       <header className="absolute w-full h-[6%] top-0">
         <h1 className="m-4 font-semibold">The Alpha Box</h1>
       </header>
-      <div className="flex justify-center items-center rounded-md p-6 bg-zinc-200 border-[1px] border-zinc-500 w-[65%] md:w-[700px] h-[30%]">
+      <div className="flex justify-center items-center rounded-md p-6 border-[1px] border-zinc-300 w-[65%] md:w-[500px] h-[30%]">
         <form className="flex flex-col justify-center gap-2 w-full" onSubmit={(e) => sendToApi(e, input)}>
-          <h1>Enter a wallet address you want to track:</h1>
+          <h1 className="text-sm text-zinc-400">Enter a wallet address you want to track</h1>
           <input className="rounded-md p-2" placeholder="Contract address" onChange={(e) => setInput(e.target.value)}></input>
           <button className="p-2 bg-blue-400 rounded-md border-[1px] border-blue-500 transition ease-in-out delay-150 hover:border-blue-800">Submit</button>
         </form>
       </div>
-      <div className="flex flex-col gap-4 w-[65%] md:w-[700px] h-[35%] overflow-scroll">
-        <h1 className="text-left text-md px-2">Wallets being tracked</h1>
-        <div className="flex flex-col gap-2 rounded-md border-[1px] border-zinc-500 w-full h-full p-2" key="test">
+      <div className="flex flex-col gap-4 w-[65%] md:w-[500px] h-[35%] overflow-scroll">
+        <h1 className="text-left text-sm text-zinc-400">Wallets being tracked</h1>
+        <div className="flex flex-col gap-2 rounded-md border-[1px] border-zinc-300 bg-zinc-200 w-full h-full p-2" key="test">
         <div className={`${loading ? "mx-auto my-auto" : "hidden"}`}>Loading...</div>
         {
           ca?.map((e:docObject) => 
-            <div className="w-full p-2 rounded-md border-[0px] border-zinc-500 bg-zinc-200 text-center transition ease-in-out delay-150 hover:bg-zinc-300 break-all" key={e._id}>{e.address}</div>
+            <Link href={`https://solscan.io/account/${e.address}`} target="_blank" className="w-full p-2 rounded-md border-[0px] border-zinc-500 bg-zinc-200 text-center transition ease-in-out delay-150 hover:bg-zinc-300 break-all" key={e._id}>{e.address}</Link>
           )
         }
         </div>
