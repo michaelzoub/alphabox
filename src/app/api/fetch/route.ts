@@ -1,11 +1,24 @@
 import { connectToDatabase } from "../../services/mongo";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
     try {
         const { db } = await connectToDatabase()
         const collection = db.collection("tracker")
         const documents = await collection.find( {  } ).toArray()
+        console.log(documents)
+        return NextResponse.json(documents)
+    } catch {
+        return NextResponse.json("Error")
+    }
+}
+
+export async function POST(req: NextRequest) {
+    try {
+        const body = await req.json()
+        const { db } = await connectToDatabase()
+        const collection = db.collection("tracker")
+        const documents = await collection.insertOne(body)
         console.log(documents)
         return NextResponse.json(documents)
     } catch {

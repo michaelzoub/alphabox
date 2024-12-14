@@ -52,6 +52,17 @@ export default function Home() {
   async function sendToApi(e:FormEvent<HTMLFormElement>, contractAddress: string) {
     e.preventDefault()
     const randoTemp = Math.floor(Math.random() * 20)
+    async function store(addy: string) {
+      const response = await fetch("/api/fetch", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(contractAddress)
+      })
+      const body = await response.json()
+      console.log(body)
+    }
     try {
       console.log(contractAddress)
       const response = await fetch("https://alphaboxbackend-production.up.railway.app/", {
@@ -62,6 +73,7 @@ export default function Home() {
         body: JSON.stringify( contractAddress )
       })
       const body = await response.json()
+      store(contractAddress)
       console.log("Success", body)
       setCa((prev: docObject[]) => [...prev, {_id: randoTemp.toString(), address: contractAddress}])
       setInput("")
