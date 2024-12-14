@@ -1,10 +1,7 @@
 "use client"
-import Image from "next/image";
 import { useEffect, useState } from "react"
 import { FormEvent } from 'react';
 import Link from "next/link";
-
-const apiEndpoint = "http://localhost:3000"
 
 interface docObject {
   _id: string,
@@ -18,7 +15,6 @@ export default function Home() {
   const[loading, setLoading] = useState(true)
   const [loadingText, setLoadingText] = useState<string>("Loading")
   const [input, setInput] = useState<string>("")
-  const [session, setSession] = useState<string[]>([])
 
   useEffect(() => {
     async function get() {
@@ -90,7 +86,7 @@ export default function Home() {
       <div className="flex flex-col gap-4 w-[65%] md:w-[500px] h-[35%] overflow-scroll">
         <h1 className="text-left text-sm text-zinc-400">Wallets being tracked</h1>
         <div className="flex flex-col gap-2 rounded-md border-[1px] border-zinc-300 bg-zinc-200 w-full h-full p-2" key="test">
-        <div className={`${loading ? "mx-auto my-auto" : "hidden"}`}>Loading...</div>
+        <div className={`${loading ? "mx-auto my-auto" : "hidden"}`}>{loadingText}</div>
         {
           ca?.map((e:docObject) => 
             <Link href={`https://solscan.io/account/${e.address}`} target="_blank" className="w-full p-2 rounded-md border-[0px] border-zinc-500 bg-zinc-200 text-center transition ease-in-out delay-150 hover:bg-zinc-300 break-all" key={e._id}>{e.address}</Link>
@@ -98,7 +94,7 @@ export default function Home() {
         }
         </div>
       </div>
-      <h1 className="text-xs">Disclaimer: Only submit wallets that have made multiple profitable returns and no trolling, we're all trying to make money here.</h1>
+      <h1 className="text-xs">Disclaimer: Only submit wallets that have made multiple profitable returns and no trolling, We&apos;re all trying to make money here.</h1>
     </main>
   );
 }
