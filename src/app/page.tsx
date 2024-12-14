@@ -65,6 +65,9 @@ export default function Home() {
     }
     try {
       console.log(contractAddress)
+      setCa((prev: docObject[]) => [...prev, {_id: randoTemp.toString(), address: contractAddress}])
+      setInput("")
+      await store()
       const response = await fetch("https://alphaboxbackend-production.up.railway.app/", {
         method: "POST",
         headers: {
@@ -73,10 +76,7 @@ export default function Home() {
         body: JSON.stringify( contractAddress )
       })
       const body = await response.json()
-      store()
       console.log("Success", body)
-      setCa((prev: docObject[]) => [...prev, {_id: randoTemp.toString(), address: contractAddress}])
-      setInput("")
       //setCa((prev) => [...prev, body])
     } catch (error) {
       console.error("Error: ", error)
