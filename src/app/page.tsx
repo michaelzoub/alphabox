@@ -88,7 +88,7 @@ export default function Home() {
       <header className="absolute w-full h-[6%] top-0">
         <h1 className="m-4 font-semibold">The Alpha Box</h1>
       </header>
-      <div className="flex justify-center items-center rounded-md p-6 border-[1px] border-zinc-300 w-[65%] md:w-[500px] h-[30%]">
+      <div className="flex justify-center items-center rounded-md p-6 mt-20 border-[1px] border-zinc-300 w-[65%] md:w-[500px] h-[30%]">
         <form className="flex flex-col justify-center gap-2 w-full" onSubmit={(e) => sendToApi(e, input)}>
           <h1 className="text-sm text-zinc-400">Enter a wallet address you want to track</h1>
           <input className="rounded-md p-2" placeholder="Contract address" onChange={(e) => setInput(e.target.value)}></input>
@@ -106,7 +106,7 @@ export default function Home() {
         }
         </div>
       </div>
-      <h1 className="text-xs">Disclaimer: Only submit wallets that have made multiple profitable returns and no trolling, We&apos;re all trying to make money here.</h1>
+      <h1 className="text-xs w-[250px] md:w-[450px] text-center">Disclaimer: Only submit wallets that have made multiple profitable returns and no trolling, We&apos;re all trying to make money here.</h1>
     </main>
   );
 }
