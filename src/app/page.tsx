@@ -28,7 +28,7 @@ export default function Home() {
           setLoadingText("Loading")
           count = 0
         } else {
-          setLoadingText((prev) => prev + 1)
+          setLoadingText((prev) => prev + ".")
           count++
         }
       }, 500)
