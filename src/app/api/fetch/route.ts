@@ -18,9 +18,9 @@ export async function POST(req: NextRequest) {
         const body = await req.json()
         const { db } = await connectToDatabase()
         const collection = db.collection("tracker")
-        const documents = await collection.insertOne(body)
-        console.log(documents)
-        return NextResponse.json(documents)
+        await collection.insertOne({ address: body })
+        console.log("success")
+        return NextResponse.json("success")
     } catch {
         return NextResponse.json("Error")
     }
