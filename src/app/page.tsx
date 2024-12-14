@@ -52,7 +52,7 @@ export default function Home() {
   async function sendToApi(e:FormEvent<HTMLFormElement>, contractAddress: string) {
     e.preventDefault()
     const randoTemp = Math.floor(Math.random() * 20)
-    async function store(addy: string) {
+    async function store() {
       const response = await fetch("/api/fetch", {
         method: "POST",
         headers: {
@@ -73,7 +73,7 @@ export default function Home() {
         body: JSON.stringify( contractAddress )
       })
       const body = await response.json()
-      store(contractAddress)
+      store()
       console.log("Success", body)
       setCa((prev: docObject[]) => [...prev, {_id: randoTemp.toString(), address: contractAddress}])
       setInput("")
