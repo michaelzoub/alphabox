@@ -95,9 +95,9 @@ export default function Home() {
           <button className="p-2 bg-blue-400 rounded-md border-[1px] border-blue-500 transition ease-in-out delay-150 hover:border-blue-800">Submit</button>
         </form>
       </div>
-      <div className="flex flex-col gap-4 w-[65%] md:w-[500px] h-[35%] overflow-scroll">
+      <div className="flex flex-col gap-4 w-[65%] md:w-[500px] h-[35%]">
         <h1 className="text-left text-sm text-zinc-400">Wallets being tracked</h1>
-        <div className="flex flex-col gap-2 rounded-md border-[1px] border-zinc-300 bg-zinc-200 w-full h-full p-2" key="test">
+        <div className="flex flex-col gap-2 rounded-md border-[1px] border-zinc-300 bg-zinc-200 w-full h-full p-2 overflow-scroll" key="test">
         <div className={`${loading ? "mx-auto my-auto" : "hidden"}`}>{loadingText}</div>
         {
           ca?.map((e:docObject) => 
